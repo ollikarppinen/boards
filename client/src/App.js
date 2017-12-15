@@ -69,7 +69,7 @@ const Columns = props => {
     return (
         <div className="columns">
             {props.columns.map(column => <Column key={column.id} {...column} />)}
-            <div className="column"><div className="column-content add-column-button"><footer>Add column...</footer></div></div>
+            <div className="column"><div className="column-content add-column-button"><Add target="column" /></div></div>
         </div>
     )
 };
@@ -82,7 +82,7 @@ const Column = props => {
             <div className="column-content">
                 <header className="column-title">{props.title}</header>
                 {tasks}
-                <footer>Add task...</footer>
+                <Add target="task" />
             </div>
         </div>
     )
@@ -92,6 +92,30 @@ const Task = props => {
     return (
         <li className="task">{props.title}</li>
     )
+};
+
+class Add extends Component {
+    state = {
+        active: false
+    };
+
+    render() {
+        return this.state.active ? <AddForm />: <AddButton onClick={() => this.setState({ active: true })} />;
+    }
+}
+
+const AddButton = props => {
+    return <div onClick={props.onClick} className={"add-button"}>{`Add ${props.target}...`}</div>;
+};
+
+const AddForm = props => {
+    return (
+        <form className="add-form">
+            <input type="text" name="name" className="add-input" />
+            <input type="submit" value="Add" className="add-form-button add-submit" />
+            <span className="add-form-button add-close">Close</span>
+        </form>
+    );
 };
 
 export default App;

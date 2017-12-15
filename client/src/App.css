@@ -69,7 +69,7 @@ html,body, #root {
   cursor: pointer;
 }
 
-.add-column-button footer {
+.add-column-button .add-button {
   border-radius: 5px;
 }
 
@@ -119,7 +119,14 @@ html,body, #root {
   font-weight: 700;
   padding: 5px;
 }
-.column-content footer {
+
+.add-form {
+  padding: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.add-button {
   padding: 5px;
   line-height: 36px;
   border-bottom-left-radius: 5px;
@@ -127,7 +134,7 @@ html,body, #root {
   color: #888;
 }
 
-.column footer:hover {
+.add-button:hover {
   cursor: pointer;
   background-color: rgb(211, 213, 215);
 }
@@ -144,4 +151,52 @@ html,body, #root {
   border-radius: 3px;
   margin-top: 10px;
   box-shadow: 0 2px rgb(206, 208, 209);
+}
+
+.add-input {
+  font-size: 14px;
+  padding: 2px 5px;
+  width: 100%;
+  box-sizing : border-box;
+  border-radius: 2px;
+  height: 50px;
+  border: 0;
+  box-shadow: 0 2px rgb(206, 208, 209);
+}
+
+.add-input:focus {
+  outline: 0;
+}
+
+.add-form-button {
+  margin-top: 5px;
+  display: inline;
+  padding: 5px 15px;
+  height: 30px;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 0;
+  box-shadow: 0 2px rgb(206, 208, 209);
+  cursor: pointer;
+}
+
+.add-submit {
+  background-color: #5aac44;
+  margin-right: 10px;
+  height: auto;
+  width: auto;
+}
+
+.add-submit:hover {
+  background-color: #478836;
+}
+
+.add-close {
+  background-color: #888888;
+}
+
+.add-close:hover {
+  background-color: #737373;
 }
