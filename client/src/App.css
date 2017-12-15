@@ -120,12 +120,6 @@ html,body, #root {
   padding: 5px;
 }
 
-.add-form {
-  padding: 5px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
 .add-button {
   padding: 5px;
   line-height: 36px;
@@ -168,11 +162,16 @@ html,body, #root {
   outline: 0;
 }
 
+.add-form {
+  padding: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
 .add-form-button {
-  margin-top: 5px;
-  display: inline;
+  display: inline-block;
+  margin-top: 15px;
   padding: 5px 15px;
-  height: 30px;
   color: white;
   font-weight: 700;
   font-size: 14px;

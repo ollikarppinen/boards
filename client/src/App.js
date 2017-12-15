@@ -110,11 +110,11 @@ const AddButton = props => {
 
 const AddForm = props => {
     return (
-        <form className="add-form">
+        <div className="add-form">
             <input type="text" name="name" className="add-input" />
-            <input type="submit" value="Add" className="add-form-button add-submit" />
+            <span className="add-form-button add-submit">Add</span>
             <span className="add-form-button add-close">Close</span>
-        </form>
+        </div>
     );
 };
 
