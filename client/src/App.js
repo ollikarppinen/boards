@@ -19,11 +19,15 @@ class App extends Component {
         this.setState({ activeBoard: board })
     }
 
+    handleAdd(title, type, ref_id) {
+        console.log(title, type, ref_id);
+    }
+
     render() {
         console.log(this.state);
         return (
             this.state.activeBoard ?
-                <Board board={this.state.activeBoard} onClick={() => this.setState({ activeBoard: null })} /> :
+                <Board board={this.state.activeBoard} onClick={() => this.setState({ activeBoard: null })} onAdd={this.handleAdd.bind(this)} /> :
                 <Boards boards={this.state.boards}  onActivate={this.handleActivateBoard.bind(this)} />
         );
     }
@@ -59,7 +63,7 @@ const Board = props => {
     return (
         <div className="board">
             <div className="board-title">{props.board.title}<span onClick={props.onClick}>return</span></div>
-            <Columns columns={props.board.columns}/>
+            <Columns columns={props.board.columns} onAdd={props.onAdd} />
         </div>
     )
 };
@@ -68,7 +72,7 @@ const Columns = props => {
 
     return (
         <div className="columns">
-            {props.columns.map(column => <Column key={column.id} {...column} />)}
+            {props.columns.map(column => <Column key={column.id} {...column} onAdd={props.onAdd} />)}
             <div className="column"><div className="column-content add-column-button"><Add target="column" /></div></div>
         </div>
     )
@@ -82,7 +86,7 @@ const Column = props => {
             <div className="column-content">
                 <header className="column-title">{props.title}</header>
                 {tasks}
-                <Add target="task" />
+                <Add onAdd={props.onAdd} target="task" />
             </div>
         </div>
     )
@@ -100,7 +104,7 @@ class Add extends Component {
     };
 
     render() {
-        return this.state.active ? <AddForm />: <AddButton onClick={() => this.setState({ active: true })} />;
+        return this.state.active ? <AddForm onAdd={this.props.onAdd} onClose={() => this.setState({ active: false })} />: <AddButton onClick={() => this.setState({ active: true })} />;
     }
 }
 
@@ -108,14 +112,32 @@ const AddButton = props => {
     return <div onClick={props.onClick} className={"add-button"}>{`Add ${props.target}...`}</div>;
 };
 
-const AddForm = props => {
-    return (
-        <div className="add-form">
-            <input type="text" name="name" className="add-input" />
-            <span className="add-form-button add-submit">Add</span>
-            <span className="add-form-button add-close">Close</span>
-        </div>
-    );
-};
+// const AddForm = props => {
+//     return (
+//
+//     );
+// };
+
+class AddForm extends Component {
+    state = {
+        inputValue: ''
+    };
+
+    updateInputValue(evt) {
+        this.setState({
+            inputValue: evt.target.value
+        });
+    }
+
+    render() {
+        return (
+            <div className="add-form">
+                <input value={this.state.inputValue} onChange={this.updateInputValue.bind(this)} type="text" name="name" className="add-input" />
+                <span onClick={() => this.props.onAdd(this.state.inputValue)} className="add-form-button add-submit">Add</span>
+                <span onClick={this.props.onClose}className="add-form-button add-close">Close</span>
+            </div>
+        );
+    }
+}
 
 export default App;
