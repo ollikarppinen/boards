@@ -25,6 +25,17 @@ html,body, #root {
   font-weight: 700;
 }
 
+.board-title span {
+  margin-left: 10px;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.board-title span:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .board-buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

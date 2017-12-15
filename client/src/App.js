@@ -23,7 +23,7 @@ class App extends Component {
         console.log(this.state);
         return (
             this.state.activeBoard ?
-                <Board board={this.state.activeBoard} /> :
+                <Board board={this.state.activeBoard} onClick={() => this.setState({ activeBoard: null })} /> :
                 <Boards boards={this.state.boards}  onActivate={this.handleActivateBoard.bind(this)} />
         );
     }
@@ -56,10 +56,9 @@ const CreateBoardButton = props => {
 };
 
 const Board = props => {
-
     return (
         <div className="board">
-            <div className="board-title">{props.board.title}</div>
+            <div className="board-title">{props.board.title}<span onClick={props.onClick}>return</span></div>
             <Columns columns={props.board.columns}/>
         </div>
     )
