@@ -70,7 +70,7 @@ const Columns = props => {
     return (
         <div className="columns">
             {props.columns.map(column => <Column key={column.id} {...column} />)}
-            <div className="column"><div className="column-content">Add column...</div></div>
+            <div className="column"><div className="column-content add-column-button"><footer>Add column...</footer></div></div>
         </div>
     )
 };
