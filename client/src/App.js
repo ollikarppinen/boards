@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import update from 'immutability-helper';
 import './App.css';
 
 class App extends Component {
     state = {
         boards: [],
-        activeBoard: null
+        activeBoardId: null
     };
 
     componentDidMount() {
@@ -15,28 +16,41 @@ class App extends Component {
     }
 
     handleActivateBoard(board) {
-        this.setState({ activeBoard: board })
+        this.setState({ activeBoardId: board.id })
     }
+
+    handleResponse(json) {
+        if (json.board_id === undefined && json.column_id === undefined) {
+            this.setState({ boards: this.state.boards.concat({ columns: [], ...json }) })
+        } else if (json.board_id !== undefined) {
+            const boardIndex = this.state.boards.findIndex(x => x.id === json.board_id);
+            const newColumn = { tasks: [], ...json };
+            const newState = update(this.state, {boards: {[boardIndex]: {columns: {$push: [newColumn]}}}});
+            this.setState(newState);
+        } else if (json.column_id !== undefined) {
+
+        }
+
+    };
 
     handleAdd(path, payload) {
         window.fetch(path, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' }, })
               .then(response => response.json())
-              .then(json => console.log(json))
+              .then(this.handleResponse.bind(this))
               .catch(error => console.log(error));
     }
 
     render() {
-        console.log(this.state);
+        const activeBoard = this.state.boards.find(b => b.id === this.state.activeBoardId);
         return (
-            this.state.activeBoard ?
-                <Board board={this.state.activeBoard} onClick={() => this.setState({ activeBoard: null })} onAdd={this.handleAdd.bind(this)} /> :
+            activeBoard ?
+                <Board board={activeBoard} onClick={() => this.setState({ activeBoardId: null })} onAdd={this.handleAdd.bind(this)} /> :
                 <Boards boards={this.state.boards}  onActivate={this.handleActivateBoard.bind(this)} onAdd={this.handleAdd.bind(this)} />
         );
     }
 }
 
 const Boards = props => {
-
     return (
         <div className="boards">
             <div className="title">Boards</div>
@@ -73,9 +87,7 @@ const Board = props => {
 };
 
 const Columns = props => {
-    console.log(props)
     return (
-
         <div className="columns">
             {props.columns.map(column => <Column key={column.id} {...column} onAdd={props.onAdd} />)}
             <div className="column"><div className="column-content add-column-button">
