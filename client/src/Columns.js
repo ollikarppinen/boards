@@ -11,7 +11,7 @@ const Columns = props => {
             {props.columns.map((column, columnIndex) => <Column key={column.id} {...column} onAdd={props.onAdd} boardIndex={props.boardIndex} columnIndex={columnIndex} />)}
             <div className="column">
                 <div className="column-content add-column-button">
-                    <Add onAdd={props.onAdd} boardIndex={props.boardIndex} payload={{ board_id: props.id }} target="column" path="columns" />
+                    <Add onAdd={props.onAdd} boardIndex={props.boardIndex} payload={{ board_id: props.id, position: props.columns.length }} target="column" path="columns" />
                 </div>
             </div>
         </div>
@@ -26,7 +26,13 @@ const Column = props => {
             <div className="column-content">
                 <header className="column-title">{props.title}</header>
                 {tasks}
-                <Add onAdd={props.onAdd} payload={{ column_id: props.id }} target="task" path="tasks" boardIndex={props.boardIndex} columnIndex={props.columnIndex} />
+                <Add onAdd={props.onAdd}
+                     payload={{ column_id: props.id, position: props.tasks.length }}
+                     target="task"
+                     path="tasks"
+                     boardIndex={props.boardIndex}
+                     columnIndex={props.columnIndex}
+                />
             </div>
         </div>
     )

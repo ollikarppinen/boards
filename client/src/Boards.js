@@ -9,8 +9,8 @@ const Boards = props => {
         <div className="boards">
             <div className="title">Boards</div>
             <div className="board-buttons">
-                {props.boards.map(board =>
-                    <BoardButton key={board.id} onActivate={() => props.onActivate(board)} {...board} />)}
+                {props.boards.map((board, index) =>
+                    <BoardButton key={board.id} onClick={() => props.onActivate(index)} {...board} />)}
                 <div className="add-board big-button">
                     <Add onAdd={props.onAdd} payload={{}} target="board" path="boards" />
                 </div>
@@ -21,7 +21,7 @@ const Boards = props => {
 
 const BoardButton = props => {
     return (
-        <div onClick={props.onActivate} className="board-button big-button">
+        <div onClick={props.onClick} className="board-button big-button">
             {props.title}
         </div>
     )

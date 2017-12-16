@@ -46,6 +46,6 @@ class ColumnsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def column_params
-      params.require(:column).permit(:board_id, :title)
+      params.require(:column).permit(:board_id, :title, :position)
     end
 end
