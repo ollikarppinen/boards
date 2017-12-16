@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 
 const Task = props => {
+    const classNames = "task" + (props.isMoving ? ' moving' : '');
     return (
-        <li className="task" onClick={props.onClick}>{props.title}</li>
+        <li className={classNames} onClick={props.onClick}>{props.title}</li>
     )
 };
 

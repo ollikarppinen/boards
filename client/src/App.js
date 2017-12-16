@@ -10,8 +10,8 @@ export default class App extends Component {
     state = {
         boards: [],
         activeBoardId: null,
-        movingColumnId: null,
-        movingTasksId: null
+        movingColumnIndex: null,
+        movingTaskIndex: null
     };
 
     componentDidMount() {
@@ -25,8 +25,8 @@ export default class App extends Component {
         this.setState({ activeBoardIndex: boardIndex })
     }
 
-    handleMove(movingColumnId, movingTasksId) {
-        this.setState({ movingColumnId, movingTasksId })
+    handleMove(movingColumnIndex, movingTaskIndex) {
+        this.setState({ movingColumnIndex, movingTaskIndex })
     }
 
     handleResponse(json, boardIndex, columnIndex) {
@@ -59,6 +59,8 @@ export default class App extends Component {
                        onClick={() => this.setState({ activeBoardIndex: null })}
                        onAdd={this.handleAdd.bind(this)}
                        onMove={this.handleMove.bind(this)}
+                       movingColumnIndex={this.state.movingColumnIndex}
+                       movingTaskIndex={this.state.movingTaskIndex}
                 /> :
                 <Boards boards={this.state.boards}
                         onActivate={this.handleActivateBoard.bind(this)}

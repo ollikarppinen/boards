@@ -14,11 +14,18 @@ const Columns = props => {
                         boardIndex={props.boardIndex}
                         columnIndex={columnIndex}
                         onMove={props.onMove}
+                        movingColumnIndex={props.movingColumnIndex}
+                        movingTaskIndex={props.movingTaskIndex}
                 />
             )}
             <div className="column">
                 <div className="column-content add-column-button">
-                    <Add onAdd={props.onAdd} boardIndex={props.boardIndex} payload={{ board_id: props.id, position: props.columns.length }} target="column" path="columns" />
+                    <Add onAdd={props.onAdd}
+                         boardIndex={props.boardIndex}
+                         payload={{ board_id: props.id, position: props.columns.length }}
+                         target="column"
+                         path="columns"
+                    />
                 </div>
             </div>
         </div>
@@ -26,21 +33,20 @@ const Columns = props => {
 };
 
 const Column = props => {
+    console.log(props.movingColumnIndex, props.movingTaskIndex);
+    const isMoving = props.movingColumnIndex === props.columnIndex && props.movingTaskIndex === undefined;
     const tasks = props.tasks.length > 0 ?
         <ul>
-            {
-                props.tasks.map(
-                    (task, taskIndex)=>
-                        <Task key={task.id}
-                              onClick={() => props.onMove(props.columnIndex, taskIndex)}
-                              {...task}
-                        />
-                )
-            }
+            {props.tasks.map((task, taskIndex)=>
+                <Task key={task.id}
+                      isMoving={props.movingColumnIndex === props.columnIndex && props.movingTaskIndex === taskIndex}
+                      onClick={() => props.onMove(props.columnIndex, taskIndex)}
+                      {...task}
+                />)}
         </ul>: null;
     return (
         <div className="column">
-            <div className="column-content">
+            <div className={'column-content' + (isMoving ? ' moving' : '')}>
                 <header className="column-title" onClick={() => props.onMove(props.columnIndex)}>{props.title}</header>
                 {tasks}
                 <Add onAdd={props.onAdd}
