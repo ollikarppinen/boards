@@ -8,7 +8,14 @@ import './App.css';
 const Columns = props => {
     return (
         <div className="columns">
-            {props.columns.map((column, columnIndex) => <Column key={column.id} {...column} onAdd={props.onAdd} boardIndex={props.boardIndex} columnIndex={columnIndex} />)}
+            {props.columns.map((column, columnIndex) =>
+                <Column key={column.id} {...column}
+                        onAdd={props.onAdd}
+                        boardIndex={props.boardIndex}
+                        columnIndex={columnIndex}
+                        onMove={props.onMove}
+                />
+            )}
             <div className="column">
                 <div className="column-content add-column-button">
                     <Add onAdd={props.onAdd} boardIndex={props.boardIndex} payload={{ board_id: props.id, position: props.columns.length }} target="column" path="columns" />
@@ -20,11 +27,21 @@ const Columns = props => {
 
 const Column = props => {
     const tasks = props.tasks.length > 0 ?
-        <ul>{props.tasks.map(task => <Task key={task.id} {...task} />)}</ul>: null;
+        <ul>
+            {
+                props.tasks.map(
+                    (task, taskIndex)=>
+                        <Task key={task.id}
+                              onClick={() => props.onMove(props.columnIndex, taskIndex)}
+                              {...task}
+                        />
+                )
+            }
+        </ul>: null;
     return (
         <div className="column">
             <div className="column-content">
-                <header className="column-title">{props.title}</header>
+                <header className="column-title" onClick={() => props.onMove(props.columnIndex)}>{props.title}</header>
                 {tasks}
                 <Add onAdd={props.onAdd}
                      payload={{ column_id: props.id, position: props.tasks.length }}

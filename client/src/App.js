@@ -9,7 +9,9 @@ import './App.css';
 export default class App extends Component {
     state = {
         boards: [],
-        activeBoardId: null
+        activeBoardId: null,
+        movingColumnId: null,
+        movingTasksId: null
     };
 
     componentDidMount() {
@@ -23,8 +25,11 @@ export default class App extends Component {
         this.setState({ activeBoardIndex: boardIndex })
     }
 
+    handleMove(movingColumnId, movingTasksId) {
+        this.setState({ movingColumnId, movingTasksId })
+    }
+
     handleResponse(json, boardIndex, columnIndex) {
-        // console.log('handleResponse', json, boardIndex, columnIndex);
         if (boardIndex === undefined && columnIndex === undefined) {
             const newBoard = { columns: [], ...json };
             this.setState(update(this.state, {boards: {$push: [newBoard]}}));
@@ -46,12 +51,19 @@ export default class App extends Component {
 
     render() {
         console.log(this.state);
-        // const activeBoardIndex = this.state.boards.findIndex(b => b.id === this.state.activeBoardId);
         const activeBoard = this.state.boards[this.state.activeBoardIndex];
         return (
             activeBoard ?
-                <Board board={activeBoard} boardIndex={this.state.activeBoardIndex}  onClick={() => this.setState({ activeBoardIndex: null })} onAdd={this.handleAdd.bind(this)} /> :
-                <Boards boards={this.state.boards}  onActivate={this.handleActivateBoard.bind(this)} onAdd={this.handleAdd.bind(this)} />
+                <Board board={activeBoard}
+                       boardIndex={this.state.activeBoardIndex}
+                       onClick={() => this.setState({ activeBoardIndex: null })}
+                       onAdd={this.handleAdd.bind(this)}
+                       onMove={this.handleMove.bind(this)}
+                /> :
+                <Boards boards={this.state.boards}
+                        onActivate={this.handleActivateBoard.bind(this)}
+                        onAdd={this.handleAdd.bind(this)}
+                />
         );
     }
 }

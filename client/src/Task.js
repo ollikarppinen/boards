@@ -3,7 +3,7 @@ import './App.css';
 
 const Task = props => {
     return (
-        <li className="task">{props.title}</li>
+        <li className="task" onClick={props.onClick}>{props.title}</li>
     )
 };
 
