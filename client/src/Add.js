@@ -36,6 +36,7 @@ class AddForm extends Component {
     }
 
     onSubmit() {
+        if (this.state.inputValue.length === 0) return;
         const payload = {};
         payload[this.props.target] = { ...this.props.payload, title: this.state.inputValue };
         this.props.onAdd(this.props.path, payload, this.props.boardIndex, this.props.columnIndex);
