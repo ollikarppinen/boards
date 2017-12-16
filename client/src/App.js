@@ -19,32 +19,32 @@ class App extends Component {
         this.setState({ activeBoardId: board.id })
     }
 
-    handleResponse(json) {
-        if (json.board_id === undefined && json.column_id === undefined) {
-            this.setState({ boards: this.state.boards.concat({ columns: [], ...json }) })
-        } else if (json.board_id !== undefined) {
-            const boardIndex = this.state.boards.findIndex(x => x.id === json.board_id);
+    handleResponse(json, boardIndex, columnIndex) {
+        if (boardIndex === undefined && columnIndex === undefined) {
+            const newBoard = { columns: [], ...json };
+            this.setState(update(this.state, {boards: {$push: [newBoard]}}));
+        } else if (columnIndex === undefined) {
             const newColumn = { tasks: [], ...json };
-            const newState = update(this.state, {boards: {[boardIndex]: {columns: {$push: [newColumn]}}}});
-            this.setState(newState);
+            this.setState(update(this.state, {boards: {[boardIndex]: {columns: {$push: [newColumn]}}}}));
         } else if (json.column_id !== undefined) {
-
+            this.setState(update(this.state, {boards: {[boardIndex]: {columns: {[columnIndex]: {tasks: {$push: [json]}}}}}}));
         }
-
     };
 
-    handleAdd(path, payload) {
+    handleAdd(path, payload, boardIndex, columnIndex) {
+        console.log(boardIndex, columnIndex);
         window.fetch(path, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' }, })
               .then(response => response.json())
-              .then(this.handleResponse.bind(this))
+              .then(json => this.handleResponse(json, boardIndex, columnIndex))
               .catch(error => console.log(error));
     }
 
     render() {
-        const activeBoard = this.state.boards.find(b => b.id === this.state.activeBoardId);
+        const activeBoardIndex = this.state.boards.findIndex(b => b.id === this.state.activeBoardId);
+        const activeBoard = this.state.boards[activeBoardIndex];
         return (
             activeBoard ?
-                <Board board={activeBoard} onClick={() => this.setState({ activeBoardId: null })} onAdd={this.handleAdd.bind(this)} /> :
+                <Board board={activeBoard} boardIndex={activeBoardIndex}  onClick={() => this.setState({ activeBoardId: null })} onAdd={this.handleAdd.bind(this)} /> :
                 <Boards boards={this.state.boards}  onActivate={this.handleActivateBoard.bind(this)} onAdd={this.handleAdd.bind(this)} />
         );
     }
@@ -81,7 +81,7 @@ const Board = props => {
     return (
         <div className="board">
             <div className="title">{props.board.title}<span onClick={props.onClick}>return</span></div>
-            <Columns {...props.board} onAdd={props.onAdd} />
+            <Columns boardIndex={props.boardIndex} {...props.board} onAdd={props.onAdd} />
         </div>
     )
 };
@@ -89,10 +89,12 @@ const Board = props => {
 const Columns = props => {
     return (
         <div className="columns">
-            {props.columns.map(column => <Column key={column.id} {...column} onAdd={props.onAdd} />)}
-            <div className="column"><div className="column-content add-column-button">
-                <Add onAdd={props.onAdd} payload={{ board_id: props.id }} target="column" path="columns" />
-            </div></div>
+            {props.columns.map((column, columnIndex) => <Column key={column.id} {...column} onAdd={props.onAdd} boardIndex={props.boardIndex} columnIndex={columnIndex} />)}
+            <div className="column">
+                <div className="column-content add-column-button">
+                    <Add onAdd={props.onAdd} boardIndex={props.boardIndex} payload={{ board_id: props.id }} target="column" path="columns" />
+                </div>
+            </div>
         </div>
     )
 };
@@ -105,7 +107,7 @@ const Column = props => {
             <div className="column-content">
                 <header className="column-title">{props.title}</header>
                 {tasks}
-                <Add onAdd={props.onAdd} payload={{ column_id: props.id }} target="task" path="tasks" />
+                <Add onAdd={props.onAdd} payload={{ column_id: props.id }} target="task" path="tasks" boardIndex={props.boardIndex} columnIndex={props.columnIndex} />
             </div>
         </div>
     )
@@ -129,6 +131,8 @@ class Add extends Component {
                      target={this.props.target}
                      path={this.props.path}
                      payload={this.props.payload}
+                     columnIndex={this.props.columnIndex}
+                     boardIndex={this.props.boardIndex}
             />: <AddButton onClick={() => this.setState({ active: true })} target={this.props.target} />;
     }
 }
@@ -151,7 +155,7 @@ class AddForm extends Component {
     onSubmit() {
         const payload = {};
         payload[this.props.target] = { ...this.props.payload, title: this.state.inputValue };
-        this.props.onAdd(this.props.path, payload);
+        this.props.onAdd(this.props.path, payload, this.props.boardIndex, this.props.columnIndex);
         this.props.onClose();
     }
 
