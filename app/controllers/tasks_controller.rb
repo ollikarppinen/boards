@@ -27,7 +27,10 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1
   def update
     if @task.update(task_params)
-      render json: @task
+      @task.column.tasks.select { |t| t.id != @task.id }
+                        .each_with_index { |t, i| t.update(position: (i < @task.position ? i : i + 1)) }
+      @boards = Board.all
+      render json: @boards.to_json(include: {columns: {include: :tasks}})
     else
       render json: @task.errors, status: :unprocessable_entity
     end

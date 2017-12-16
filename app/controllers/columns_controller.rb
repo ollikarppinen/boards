@@ -27,7 +27,12 @@ class ColumnsController < ApplicationController
   # PATCH/PUT /columns/1
   def update
     if @column.update(column_params)
-      render json: @column
+      @column.board
+             .columns
+             .select { |c| c.id != @column.id }
+             .each_with_index { |c, i| c.update(position: (i < @column.position ? i : i + 1)) }
+      @boards = Board.all
+      render json: @boards.to_json(include: {columns: {include: :tasks}})
     else
       render json: @column.errors, status: :unprocessable_entity
     end

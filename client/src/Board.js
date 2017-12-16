@@ -11,8 +11,8 @@ const Board = props => {
             <Columns boardIndex={props.boardIndex}
                      onAdd={props.onAdd}
                      onMove={props.onMove}
-                     movingColumnIndex={props.movingColumnIndex}
-                     movingTaskIndex={props.movingTaskIndex}
+                     movingColumnId={props.movingColumnId}
+                     movingTaskId={props.movingTaskId}
                      {...props.board}
             />
         </div>

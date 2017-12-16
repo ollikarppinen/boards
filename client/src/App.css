@@ -10,11 +10,9 @@ html,body, #root {
   padding: 0 10px;
 }
 
-/*.boards-title {*/
-  /*color: rgb(80, 80, 80);*/
-  /*font-size: 30px;*/
-  /*line-height: 50px;*/
-/*}*/
+.app {
+  height: 100%;
+}
 
 .board {
   background-color: rgb(0, 121, 191);
@@ -147,6 +145,7 @@ html,body, #root {
 }
 
 .column-content header {
+  cursor: pointer;
   color: rgb(90, 90, 90);
   line-height: 36px;
   font-size: 16px;
@@ -161,6 +160,7 @@ html,body, #root {
 }
 
 .task {
+  cursor: pointer;
   background-color: white;
   line-height: 30px;
   padding: 5px;
@@ -240,4 +240,16 @@ html,body, #root {
 
 .moving {
   border: 1px dotted red
+}
+
+.move-overlay {
+  cursor: pointer;
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 2
 }

@@ -14,8 +14,8 @@ const Columns = props => {
                         boardIndex={props.boardIndex}
                         columnIndex={columnIndex}
                         onMove={props.onMove}
-                        movingColumnIndex={props.movingColumnIndex}
-                        movingTaskIndex={props.movingTaskIndex}
+                        movingColumnId={props.movingColumnId}
+                        movingTaskId={props.movingTaskId}
                 />
             )}
             <div className="column">
@@ -33,21 +33,20 @@ const Columns = props => {
 };
 
 const Column = props => {
-    console.log(props.movingColumnIndex, props.movingTaskIndex);
-    const isMoving = props.movingColumnIndex === props.columnIndex && props.movingTaskIndex === undefined;
+    const isMoving = props.movingColumnId === props.id && props.movingTaskId === undefined;
     const tasks = props.tasks.length > 0 ?
         <ul>
             {props.tasks.map((task, taskIndex)=>
                 <Task key={task.id}
-                      isMoving={props.movingColumnIndex === props.columnIndex && props.movingTaskIndex === taskIndex}
-                      onClick={() => props.onMove(props.columnIndex, taskIndex)}
+                      isMoving={props.movingColumnId === props.id && props.movingTaskId === task.id}
+                      onClick={() => props.onMove(props.id, task.id)}
                       {...task}
                 />)}
         </ul>: null;
     return (
         <div className="column">
             <div className={'column-content' + (isMoving ? ' moving' : '')}>
-                <header className="column-title" onClick={() => props.onMove(props.columnIndex)}>{props.title}</header>
+                <header className="column-title" onClick={() => props.onMove(props.id)}>{props.title}</header>
                 {tasks}
                 <Add onAdd={props.onAdd}
                      payload={{ column_id: props.id, position: props.tasks.length }}
