@@ -7,8 +7,14 @@ html,body, #root {
 }
 
 .boards {
-  padding: 10px 50px;
+  padding: 0 10px;
 }
+
+/*.boards-title {*/
+  /*color: rgb(80, 80, 80);*/
+  /*font-size: 30px;*/
+  /*line-height: 50px;*/
+/*}*/
 
 .board {
   background-color: rgb(0, 121, 191);
@@ -16,7 +22,7 @@ html,body, #root {
   height: 100%;
 }
 
-.board-title {
+.title {
   padding-left: 10px;
   height: 100px;
   line-height: 100px;
@@ -25,13 +31,17 @@ html,body, #root {
   font-weight: 700;
 }
 
-.board-title span {
+.boards .title {
+  color: rgb(80, 80, 80);
+}
+
+.title span {
   margin-left: 10px;
   font-size: 10px;
   font-weight: 400;
 }
 
-.board-title span:hover {
+.title span:hover {
   text-decoration: underline;
   cursor: pointer;
 }
@@ -44,15 +54,39 @@ html,body, #root {
 }
 
 .board-button {
-  min-height: 64px;
-  padding: 16px;
-  margin-right: 16px;
   color: #fff;
   background-color: rgb(0, 121, 191);
-  font-size: 24px;
+  padding: 16px;
 
+}
+
+.big-button {
+  min-height: 64px;
+  margin-right: 16px;
+  font-size: 24px;
   font-weight: 700;
   border-radius: 10px;
+}
+
+.add-board {
+  background-color: rgb(226, 228, 230);
+}
+
+.add-board:hover {
+  background-color: rgb(210, 212, 214);
+}
+
+.add-board .add-button {
+  padding: 10px;
+}
+
+.add-board .add-button:hover {
+  border-radius: 10px;
+  height: 80px;
+}
+
+.add-board .add-button {
+  height:100%;
 }
 
 .board-button:hover {
@@ -60,14 +94,14 @@ html,body, #root {
   cursor: pointer;
 }
 
-.create-board-button {
-  background-color: rgb(131, 140, 145);
-}
+/*.add-board {*/
+  /*background-color: rgb(131, 140, 145);*/
+/*}*/
 
-.create-board-button:hover {
-  background-color: rgb(112, 120, 124);
-  cursor: pointer;
-}
+/*.create-board-button:hover {*/
+  /*background-color: rgb(112, 120, 124);*/
+  /*cursor: pointer;*/
+/*}*/
 
 .add-column-button .add-button {
   border-radius: 5px;
@@ -120,18 +154,6 @@ html,body, #root {
   padding: 5px;
 }
 
-.add-button {
-  padding: 5px;
-  line-height: 36px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  color: #888;
-}
-
-.add-button:hover {
-  cursor: pointer;
-  background-color: rgb(211, 213, 215);
-}
 
 .column ul {
   padding: 5px;
@@ -145,6 +167,22 @@ html,body, #root {
   border-radius: 3px;
   margin-top: 10px;
   box-shadow: 0 2px rgb(206, 208, 209);
+}
+
+.column .add-button {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 5px;
+  line-height: 36px;
+}
+
+.add-button {
+  color: #888;
+}
+
+.add-button:hover {
+  cursor: pointer;
+  background-color: rgb(211, 213, 215);
 }
 
 .add-input {
@@ -164,13 +202,13 @@ html,body, #root {
 
 .add-form {
   padding: 5px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  /*border-bottom-left-radius: 5px;*/
+  /*border-bottom-right-radius: 5px;*/
 }
 
 .add-form-button {
   display: inline-block;
-  margin-top: 15px;
+  margin-top: 10px;
   padding: 5px 15px;
   color: white;
   font-weight: 700;
