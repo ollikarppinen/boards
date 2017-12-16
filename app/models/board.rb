@@ -1,3 +1,3 @@
 class Board < ApplicationRecord
-  has_many :columns
+  has_many :columns, dependent: :destroy
 end
