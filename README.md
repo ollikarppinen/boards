@@ -14,7 +14,7 @@ node 7.7.3
 
 `bundle install`
 
-`cd client &amp;&amp; npm install`
+`cd client && npm install`
 
 `bin/rake db:migrate`
 
