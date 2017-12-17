@@ -43,15 +43,14 @@ export default class App extends Component {
             const target = this.getObject(targetColumnId, targetTaskId);
             const source = this.getObject(this.state.movingColumnId, this.state.movingTaskId);
             this.setState({ movingColumnId: null, movingTaskId: null });
-            // console.log('target', target, 'source', source);
-            if (isColumn(source) && isTask(target)) {
-                console.log("Column can't move into task");
-                return
-            }
             let payload;
             let path;
             if (isColumn(source) && isColumn(target)) {
                 payload = { column: { board_id: target.board_id, position: target.position } };
+                path = 'columns/' + source.id;
+            } else if (isColumn(source) && isTask(target)) {
+                const targetColumn = this.getObject(target.column_id);
+                payload = { column: { board_id: targetColumn.board_id, position: targetColumn.position } };
                 path = 'columns/' + source.id;
             } else if (isTask(source) && isColumn(target)) {
                 path = 'tasks/' + source.id;
@@ -123,7 +122,7 @@ const isTask = obj => Object.keys(obj).includes('column_id');
 const MoveNotification = props => {
     return (
         <div className="move-overlay"  onClick={props.cancelMove}>
-            <div>Move target</div>
+            <div>Moving</div>
             <div>Column: {props.movingColumnId}</div>
             {props.movingTaskId !== null && props.movingTaskId !== undefined ? <div>Task: {props.movingTaskId}</div>: null}
         </div>
