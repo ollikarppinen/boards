@@ -1,24 +1,23 @@
-# README
+# Boards
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Trello clone made with Create React App and Rails.
 
-Things you may want to cover:
+Live demo: https://trello-boards.herokuapp.com
 
-* Ruby version
+## Dependencies
 
-* System dependencies
+rails 2.3.1
 
-* Configuration
+node 7.7.3
 
-* Database creation
+## Install
 
-* Database initialization
+`bundle install`
 
-* How to run the test suite
+`cd client &amp;&amp; npm install`
 
-* Services (job queues, cache servers, search engines, etc.)
+`bin/rake db:migrate`
 
-* Deployment instructions
+## Run
 
-* ...
+`bin/rake start`
